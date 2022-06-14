@@ -1,3 +1,4 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
@@ -9,12 +10,23 @@ import { FormControl } from '@angular/forms';
 export class MonobankComponent implements OnInit {
   token = new FormControl('');
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
   }
 
-  public onRun(): void {
-    console.log("onRun: ", this.token.value);
+  public async onRun() {
+    const token = this.token.value || '';
+
+    let response = await this.http.get("https://api.monobank.ua/personal/client-info", {
+      headers: new HttpHeaders({
+        'X-token': token
+      })
+    });
+
+    response.subscribe(response => {
+      console.log("Response from server: ", response);
+    });
+
   }
 }
