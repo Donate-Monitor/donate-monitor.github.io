@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import { ClientInfo, Convert } from './api';
+import { ClientInfo, AccountEntity } from './api';
 
 @Component({
   selector: 'app-monobank',
@@ -12,10 +12,8 @@ import { ClientInfo, Convert } from './api';
 export class MonobankComponent implements OnInit {
   token = new FormControl('');
 
-  clientInfo: any;
+  clientInfo: ClientInfo | null = null;
   selectedEntity: AccountEntity | null = null;
-
-  cardsAndJars: Array<AccountEntity> = [];
 
   constructor(private http: HttpClient) { }
 
@@ -33,34 +31,11 @@ export class MonobankComponent implements OnInit {
 
     response.subscribe(response => {
       console.log("Response from server: ", response);
-      this.clientInfo = Convert.toClientInfo(response);;
- 
-      this.cardsAndJars = this.calculateCardsAndJars(this.clientInfo);
+      this.clientInfo = new ClientInfo(response);
     });
   }
 
-  private calculateCardsAndJars(clientInfo: any): Array<AccountEntity> {
-    let arr: Array<AccountEntity> = [];
-    clientInfo.accounts.forEach((element: any) => {
-      arr.push(new AccountEntity(element.id, element.currencyCode));
-    });
-    return arr;
+  public onSelectAccount() {
+    console.log(this.selectedEntity);
   }
-
-};
-
-export class AccountEntity {
-  id: string;
-  currencyCode: number;
-  value: string = 'some value';
-
-  constructor(id: string, currencyCode: number, ) {
-    this.id = id;
-    this.currencyCode = currencyCode;
-  }
-
-  public toString(): string {
-    return this.id;
-  }
-
 };
