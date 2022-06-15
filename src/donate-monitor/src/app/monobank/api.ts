@@ -37,14 +37,14 @@ export interface Jar {
     description?:  string;
     currencyCode?: number;
     balance?:      number;
-    goal?:         number;
+    goal?:         number|null;
 }
 
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
 export class Convert {
-    public static toClientInfo(json: string): ClientInfo {
-        return cast(JSON.parse(json), r("ClientInfo"));
+    public static toClientInfo(json: any): ClientInfo {
+        return cast(json, r("ClientInfo"));
     }
 
     public static clientInfoToJson(value: ClientInfo): string {
@@ -211,6 +211,6 @@ const typeMap: any = {
         { json: "description", js: "description", typ: u(undefined, "") },
         { json: "currencyCode", js: "currencyCode", typ: u(undefined, 0) },
         { json: "balance", js: "balance", typ: u(undefined, 0) },
-        { json: "goal", js: "goal", typ: u(undefined, 0) },
+        { json: "goal", js: "goal", typ: u(undefined, 0, null) },
     ], false),
 };

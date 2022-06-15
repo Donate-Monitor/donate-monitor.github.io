@@ -2,6 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
+import { ClientInfo, Convert } from './api';
+
 @Component({
   selector: 'app-monobank',
   templateUrl: './monobank.component.html',
@@ -31,7 +33,7 @@ export class MonobankComponent implements OnInit {
 
     response.subscribe(response => {
       console.log("Response from server: ", response);
-      this.clientInfo = response;
+      this.clientInfo = Convert.toClientInfo(response);;
  
       this.cardsAndJars = this.calculateCardsAndJars(this.clientInfo);
     });
@@ -44,7 +46,6 @@ export class MonobankComponent implements OnInit {
     });
     return arr;
   }
-
 
 };
 
@@ -63,15 +64,3 @@ export class AccountEntity {
   }
 
 };
-
-
-// clientId: '45JkoMSKNk',
-// name: 'Ламзін Олег',
-// webHookUrl: '',
-// permissions: 'psfj',
-// accounts: Array(3), …}
-// accounts: Array(3)
-// 0: { id: 'c4sTeBeEoyDQGXpV4PO9Vg', sendId: '45JkoMSKNk', currencyCode: 980, cashbackType: 'UAH', balance: 5287604, … } 
-// 1: { id: '8jhGhDeBx_8sIRxZltZMKA', sendId: '6XcS5yGBH7', currencyCode: 840, cashbackType: 'UAH', balance: 0, … } 
-// 2: { id: '6ibWwkOD45VPQEQC_Q9omA', sendId: '6Us9GQgxF5', currencyCode: 978, cashbackType: 'UAH', balance: 16684, … } length: 3[[Prototype]]: Array(0)clientId: "45JkoMSKNk"
-// jars: (2)[{… }, {… }]name: "Ламзін Олег"permissions: "psfj"webHookUrl: ""[[Prototype]]: Object
