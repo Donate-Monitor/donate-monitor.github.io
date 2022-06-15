@@ -1,6 +1,7 @@
 .mono-card {
     max-width: 600px;
     margin: auto;
+    margin-top: 20px;
 }
 
 .mono-api-key {

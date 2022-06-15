@@ -9,6 +9,20 @@
     <input matInput [formControl]="token">
   </mat-form-field>
   <mat-card-actions align="end">
-    <button mat-button color="primary" (click)="onRun()">RUN</button>
+    <button mat-button color="primary" (click)="onRun()">FETCH ACCOUNT INFO</button>
   </mat-card-actions>
+</mat-card>
+
+<mat-card class="mono-card" *ngIf="clientInfo">
+  <mat-card-title>Account owner: {{ clientInfo.name }}</mat-card-title>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Select card or jar</mat-label>
+    <mat-select [(ngModel)]="selectedEntity" name="entity">
+      <mat-option *ngFor="let entity of cardsAndJars" [value]="entity.value">
+        {{entity.toString()}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
 </mat-card>
