@@ -14,6 +14,7 @@ export class MonobankComponent implements OnInit {
 
   clientInfo: ClientInfo | null = null;
   selectedEntity: AccountEntity | null = null;
+  monoApi: MonoApi | null = null;
 
   constructor(private http: HttpClient) { }
 
@@ -22,11 +23,13 @@ export class MonobankComponent implements OnInit {
 
   public async onFetchAcountInfo() {
     const token = this.token.value || '';
-    let mono = new MonoApi(token, this.http);
-    this.clientInfo = await mono.fetchClientInfo();
+    this.monoApi = new MonoApi(token, this.http);
+    this.clientInfo = await this.monoApi.fetchClientInfo();
   }
 
-  public onSelectAccount() {
+  public async onFetchTransactions() {
     console.log(this.selectedEntity);
+    let tr = await this.monoApi!.fetchTransactions(this.selectedEntity!.id);
+    console.log(tr);
   }
 };

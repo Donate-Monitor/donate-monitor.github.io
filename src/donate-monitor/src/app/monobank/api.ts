@@ -24,6 +24,36 @@ export class MonoApi {
             });
         });
     }
+
+    async fetchTransactions(accountID: string): Promise<Transaction[]> {
+        // UTC time in seconds.
+        let toTime = Math.round(new Date().getTime() / 1000);
+        // now - 31 days - 1 hour in seconds.
+        let fromTime = toTime - 2682000;
+
+        let response = this.http.get(`https://api.monobank.ua/personal/statement/${accountID}/${fromTime}/${toTime}`, {
+            headers: new HttpHeaders({
+                'X-token': this.token
+            })
+        });
+
+        return new Promise<Transaction[]>((resolve, reject) => {
+            response.subscribe(response => {
+                console.log("Response from server: ", response);
+                let transactions = new Array<Transaction>();
+                
+                if (!Array.isArray(response)) {
+                    reject("Error happened: " + response);
+                    return;
+                }
+                
+                response.forEach(item => {
+                    transactions.push(new Transaction(item));
+                });
+                resolve(transactions);
+            });
+        });
+    }
 }
 
 export class ClientInfo {
@@ -84,7 +114,19 @@ export class Jar implements AccountEntity {
 }
 
 export interface AccountEntity {
-    id?: string;
+    id: string;
 
     value(): string;
+}
+
+export class Transaction {
+    time: number;
+    description: string;
+    amount: number;
+
+    constructor(o: any) {
+        this.time = o.time;
+        this.description = o.description;
+        this.amount = o.amount;
+    }
 }
