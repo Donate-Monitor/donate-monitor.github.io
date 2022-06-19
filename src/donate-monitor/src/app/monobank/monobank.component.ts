@@ -1,8 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import { ClientInfo, AccountEntity } from './api';
+import { MonoApi, ClientInfo, AccountEntity } from './api';
 
 @Component({
   selector: 'app-monobank',
@@ -22,17 +22,8 @@ export class MonobankComponent implements OnInit {
 
   public async onRun() {
     const token = this.token.value || '';
-
-    let response = await this.http.get("https://api.monobank.ua/personal/client-info", {
-      headers: new HttpHeaders({
-        'X-token': token
-      })
-    });
-
-    response.subscribe(response => {
-      console.log("Response from server: ", response);
-      this.clientInfo = new ClientInfo(response);
-    });
+    let mono = new MonoApi(token, this.http);
+    this.clientInfo = await mono.fetchClientInfo();
   }
 
   public onSelectAccount() {

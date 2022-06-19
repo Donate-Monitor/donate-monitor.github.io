@@ -1,3 +1,31 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+export class MonoApi {
+    token: string;
+    http: HttpClient;
+
+    constructor(token: string, http: HttpClient) {
+        this.token = token;
+        this.http = http;
+    }
+
+    async fetchClientInfo(): Promise<ClientInfo> {
+        let response = await this.http.get("https://api.monobank.ua/personal/client-info", {
+            headers: new HttpHeaders({
+                'X-token': this.token
+            })
+        });
+
+        return new Promise<ClientInfo>((resolve, reject) => {
+            response.subscribe(response => {
+                console.log("Response from server: ", response);
+                let clientInfo = new ClientInfo(response);
+                resolve(clientInfo);
+            });
+        });
+    }
+}
+
 export class ClientInfo {
     clientId: string;
     name: string;
@@ -19,7 +47,7 @@ export class ClientInfo {
         });
     }
 
-    cardsAndJars() : Array<AccountEntity> {
+    cardsAndJars(): Array<AccountEntity> {
         let arr = new Array<AccountEntity>();
         return arr.concat(this.accounts, this.jars);
     }
