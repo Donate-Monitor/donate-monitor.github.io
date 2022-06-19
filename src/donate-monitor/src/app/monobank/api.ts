@@ -75,11 +75,23 @@ export class ClientInfo {
         o.jars.forEach((element: any) => {
             this.jars.push(new Jar(element));
         });
+
+        let cmp = (a:AccountEntity, b:AccountEntity) => {
+            if (a.getShortDescription() > b.getShortDescription()) {
+                return 1;
+            }
+            if (a.getShortDescription() < b.getShortDescription()) {
+                return -1;
+            }
+            return 0;
+        };
+        this.accounts = this.accounts.sort(cmp);
+        this.jars = this.jars.sort(cmp);
     }
 
     cardsAndJars(): Array<AccountEntity> {
         let arr = new Array<AccountEntity>();
-        return arr.concat(this.accounts, this.jars);
+        return arr.concat(this.jars, this.accounts);
     }
 }
 
