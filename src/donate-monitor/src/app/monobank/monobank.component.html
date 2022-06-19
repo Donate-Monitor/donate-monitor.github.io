@@ -2,7 +2,8 @@
   <mat-card-subtitle>Monobank API key</mat-card-subtitle>
   <mat-card-content>
     Copy your Monobank API key from <a href="https://api.monobank.ua/" target="_blank">https://api.monobank.ua/</a>.
-    Provided API key will be stored on your computer and will be used to perform API request from your computer to Monobank servers.
+    Provided API key will be stored on your computer and will be used to perform API request from your computer to
+    Monobank servers.
   </mat-card-content>
   <mat-form-field class="mono-wide-input" appearance="fill">
     <mat-label>API key</mat-label>
@@ -14,15 +15,31 @@
 </mat-card>
 
 <mat-card class="mono-card" *ngIf="clientInfo">
-  <mat-card-subtitle>Account owner: {{ clientInfo.name }}</mat-card-subtitle>
+  <mat-card-subtitle>Owner: {{ clientInfo.name }}</mat-card-subtitle>
   <mat-form-field class="mono-wide-input" appearance="fill">
     <mat-label>Select card or jar</mat-label>
     <mat-select [(ngModel)]="selectedEntity" name="entity">
       <mat-option *ngFor="let entity of clientInfo.cardsAndJars()" [value]="entity">
-        {{entity.value()}}
+        {{entity.getShortDescription()}}
       </mat-option>
     </mat-select>
   </mat-form-field>
+
+  <div *ngIf="selectedEntity">
+    <mat-card-subtitle>
+      {{ selectedEntity.getShortDescription() }}
+    </mat-card-subtitle>
+    <mat-card-subtitle *ngIf="selectedEntity.getUrl()">
+      <a href="{{ selectedEntity.getUrl() }}" target="_blank">{{ selectedEntity.getUrl() }}</a>
+    </mat-card-subtitle>
+    <mat-card-subtitle>
+      {{ selectedEntity.getBalance() }}
+    </mat-card-subtitle>
+    <mat-card-subtitle style="white-space: pre-line;">
+      {{ selectedEntity.getLongDescription() }}
+    </mat-card-subtitle>
+  </div>
+
   <mat-card-actions align="end">
     <button mat-button color="primary" (click)="onFetchTransactions()">FETCH FRANSACTIONS</button>
   </mat-card-actions>
