@@ -20,7 +20,7 @@ export class MonobankComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public async onRun() {
+  public async onFetchAcountInfo() {
     const token = this.token.value || '';
     let mono = new MonoApi(token, this.http);
     this.clientInfo = await mono.fetchClientInfo();
