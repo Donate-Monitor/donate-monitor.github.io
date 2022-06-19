@@ -10,13 +10,13 @@ export class MonoApi {
     }
 
     async fetchClientInfo(): Promise<ClientInfo> {
-        let response = await this.http.get("https://api.monobank.ua/personal/client-info", {
+        let response = this.http.get("https://api.monobank.ua/personal/client-info", {
             headers: new HttpHeaders({
                 'X-token': this.token
             })
         });
 
-        return new Promise<ClientInfo>((resolve, reject) => {
+        return new Promise<ClientInfo>((resolve) => {
             response.subscribe(response => {
                 console.log("Response from server: ", response);
                 let clientInfo = new ClientInfo(response);
