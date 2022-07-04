@@ -50,6 +50,7 @@ export class MonoApi {
                 response.forEach(item => {
                     transactions.push(new Transaction(item));
                 });
+                transactions = transactions.reverse();
                 resolve(transactions);
             });
         });

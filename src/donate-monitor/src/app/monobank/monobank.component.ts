@@ -21,24 +21,31 @@ export class MonobankComponent implements OnInit {
   //   new Transaction({
   //     time: 1656961787,
   //     amount: 9900,
-  //     description: "Від: Онуфрій Козаченко",
+  //     description: "Від: 99",
   //   }),
   //   new Transaction({
   //     time: 1656961787,
   //     amount: 10000,
-  //     description: "Від: Онуфрій Козаченко",
+  //     description: "Від: 100",
   //   }),
   //   new Transaction({
   //     time: 1656961787,
-  //     amount: 10000,
-  //     description: "Від: Онуфрій Козаченко sdjdjds dfkjsdklfj ljfdkfjsdl jdskfjdslfj skfsdjsd fdsfdsfdsfsdf dsf dsf dsf sdf dsf sdfsdf ds fdsfds fds fsdf",
-  //   })    
+  //     amount: 20000,
+  //     description: "Від: 200 sdjdjds dfkjsdklfj ljfdkfjsdl jdskfjdslfj skfsdjsd fdsfdsfdsfsdf dsf dsf dsf sdf dsf sdfsdf ds fdsfds fds fsdf",
+  //   })
   // ];
-  transactionsColumns: string[] = ['date', 'time', 'amount', 'description'];
+  showTransactionsDescription = false;
 
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
+  }
+
+  public transactionsColumns(): string[] {
+    if (this.showTransactionsDescription) {
+      return ['date', 'time', 'amount', 'description'];
+    }
+    return ['date', 'time', 'amount'];
   }
 
   public async onFetchAcountInfo() {
