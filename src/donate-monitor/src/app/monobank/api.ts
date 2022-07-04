@@ -179,6 +179,45 @@ export class Transaction {
         this.description = o.description;
         this.amount = o.amount;
     }
+
+    getDate() : string {
+        const d = new Date(this.time * 1000);
+        
+        let day = d.getDate().toString();
+        if (day.length == 1) {
+            day = '0' + day;
+        }
+
+        let month = (d.getMonth() + 1).toString();
+        if (month.length == 1) {
+            month = '0' + month;
+        }
+        
+        let year = (d.getFullYear()).toString();
+        year = year.slice(2);
+
+        return `${day}.${month}.${year}`;
+    }
+
+    getTime() : string {
+        const d = new Date(this.time * 1000);
+
+        let hour = d.getHours().toString();
+        if (hour.length == 1) {
+            hour = '0' + hour;
+        }
+
+        let minute = d.getMinutes().toString();
+        if (minute.length == 1) {
+            minute = '0' + minute;
+        }
+
+        return `${hour}:${minute}`;
+    }
+
+    getAmount() : string {
+        return `${Math.floor(this.amount/100)}`;
+    }
 }
 
 function formatMoney(money: number, currencyCode: number): string {

@@ -7,3 +7,11 @@
 .mono-wide-input {
     width: 100%;
 }
+
+.mono-transaction-table {
+    width: 100%;
+}
+
+.mono-fixed-column {
+    width: 70px;
+}
