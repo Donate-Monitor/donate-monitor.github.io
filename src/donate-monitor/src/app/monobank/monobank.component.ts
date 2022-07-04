@@ -55,8 +55,6 @@ export class MonobankComponent implements OnInit {
   }
 
   public async onFetchTransactions() {
-    console.log(this.selectedEntity);
     this.transactions = await this.monoApi!.fetchTransactions(this.selectedEntity!.id);
-    console.log(this.transactions);
   }
 };
